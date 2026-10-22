@@ -20,6 +20,20 @@ while True:
     _thread.start_new_thread(driveforwardleft,(800,0.001))
     driveforwardright(800, 0.001)
 
+'''
+delay = 0.01
+for i in range(4):
+    turning = round(motor.turn(90))
+    motor.move_steps(turning, delay, direction="forward")
+
+    sleep(1)
+    #motor.move_steps(-turning, delay=0.01, direction="forward")
+    path = round(motor.travelStep(100))
+    print(path)
+    motor.move_steps(path, delay, direction="forward")
+    sleep (1)
+'''
+
 
 '''motorleft = StepperMotor(side="left", pwm_pct=0.90, frequency=18_000)
 motorright = StepperMotor(side="right", pwm_pct=0.90, frequency=18_000)
