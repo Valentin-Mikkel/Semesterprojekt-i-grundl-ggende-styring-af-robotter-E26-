@@ -9,17 +9,17 @@ class StepperMotor:
 
         if side == "left":
             self.pins = [
-                PWM(Pin("GP0", Pin.OUT)),
-                PWM(Pin("GP1", Pin.OUT)),
+                PWM(Pin("GP16", Pin.OUT)),
+                PWM(Pin("GP17", Pin.OUT)),
                 PWM(Pin("GP2", Pin.OUT)),
                 PWM(Pin("GP3", Pin.OUT)),
             ]
         elif side == "right":
             self.pins = [
-                PWM(Pin("GP4", Pin.OUT)),
                 PWM(Pin("GP5", Pin.OUT)),
-                PWM(Pin("GP6", Pin.OUT)),
-                PWM(Pin("GP7", Pin.OUT)),
+                PWM(Pin("GP4", Pin.OUT)),
+                PWM(Pin("GP20", Pin.OUT)),
+                PWM(Pin("GP19", Pin.OUT)),
             ]
         else:
             raise ValueError("side must be 'left' or 'right'")

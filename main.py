@@ -1,25 +1,14 @@
-from stepper_motor import StepperMotor
+from differentialDrive import differentialDrive
 import _thread
+from time import sleep
 
-motorleft = StepperMotor(side="left", pwm_pct=0.35, frequency=18_000)
-motorright = StepperMotor(side="right", pwm_pct=0.35, frequency=18_000)
-
-motorright.set_step_mode("micro", microsteps=4)
-motorleft.set_step_mode("micro", microsteps=4)
-
-def driveforwardleft(steps, delay):
-    motorleft.move_stepper(steps, "forward", delay)
-    motorleft.stop()
-
-def driveforwardright(steps, delay):
-    motorright.move_stepper(steps, "forward", delay)
-    motorright.stop()
+left = differentialDrive(side="left", pwm_pct=0.35, frequency=18_000, mode="micro", microsteps=4)
+right = differentialDrive(side="right", pwm_pct=0.35, frequency=18_000, mode="micro", microsteps=4)
 
 while True:
-
-    _thread.start_new_thread(driveforwardleft,(800,0.001))
-    driveforwardright(800, 0.001)
-
+    _thread.start_new_thread(left.driveforward,(800, 0.001,"forward"))
+    right.driveforward(800, 0.001,"forward")
+    sleep(1)
 '''
 delay = 0.01
 for i in range(4):
