@@ -38,9 +38,9 @@ class DifferentialDrive:
     def move_distance(self, distance_cm, direction, delay_us=1000, side="left"):
         steps = self.cm_to_steps(distance_cm) #get amount of steps needed from function
         if side == "left":
-            self.move_stepper(side == "left", steps, direction, delay_us) #give each motor steps
+            self.left.move_stepper(steps, direction, delay_us) #give each motor steps
         elif side == "right":
-            self.move_stepper(side == "right", steps, direction, delay_us) #needs work to be in sync
+            self.right.move_stepper(steps, direction, delay_us)
 
     def turnMath(self, degrees): # in place rotation. degrees are degrees wanting to turn
         numStepTxD = (degrees / 360) * self.numStepFT  # number of steps to turn X degrees
@@ -60,12 +60,10 @@ class DifferentialDrive:
     def turn_left(self, degrees, delay_us=1000):
         steps = self.turnMath(degrees) #get number of steps to turn
 
-        for i in range(steps):
-            self.right.move_stepper(1, "forward", delay_us) #turn of side
-            self.left.move_stepper(1, "backward", delay_us)#needs sync
+        self.left.move_stepper(steps, "backward", delay_us)#needs sync
 
     def turn_right(self, degrees, delay_us=1000):
         steps = self.turnMath(degrees)
 
-        self.left.move_stepper(steps, "forward", delay_us)
-        self.right.move_stepper(steps, "backward", delay_us)
+        self.right.move_stepper(steps, "forward", delay_us) #turn of side
+
