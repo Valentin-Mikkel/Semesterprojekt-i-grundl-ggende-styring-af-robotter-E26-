@@ -44,7 +44,7 @@ class DifferentialDrive:
 
     def turnMath(self, degrees): # in place rotation. degrees are degrees wanting to turn
         numStepTxD = (degrees / 360) * self.numStepFT  # number of steps to turn X degrees
-        MotorSteps = numStepTxD / 2  #steps for the motors to turn x degree in place
+        MotorSteps = numStepTxD  #steps for the motors to turn x degree in place
         #otherMotorSteps = -MotorSteps  #go opposite of other motor and you'll turn
         return MotorSteps #take the negative of this for other motor
 

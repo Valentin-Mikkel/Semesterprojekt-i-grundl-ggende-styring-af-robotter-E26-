@@ -3,7 +3,7 @@
   <component name="MicroPythonTools">
     <option name="activeWebReplPresetId" value="c646dbca-b821-4702-9cd1-816f5fe1ab40" />
     <option name="pluginEnabled" value="true" />
-    <option name="portName" value="COM3" />
+    <option name="portName" value="COM5" />
     <option name="webReplPresets">
       <map>
         <entry key="c646dbca-b821-4702-9cd1-816f5fe1ab40" value="{&quot;id&quot;:&quot;c646dbca-b821-4702-9cd1-816f5fe1ab40&quot;,&quot;name&quot;:&quot;Default&quot;}" />

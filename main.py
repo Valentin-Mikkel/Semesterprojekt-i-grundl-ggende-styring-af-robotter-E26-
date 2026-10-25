@@ -6,7 +6,7 @@ from time import sleep
 
 side1 = "left"
 side2 = "right"
-pwm_pct = 0.15
+pwm_pct = 0.35
 frequency = 18_000
 mode = "half"
 microsteps = 4
@@ -26,8 +26,8 @@ motor.move_distance(100, "forward", 0.02, "right")
 turnSide = "right"
 
 for i in range(4):
-    _thread.start_new_thread(motor.move_distance, (100, "forward", 0.02, "left"))
-    motor.move_distance(100, "forward", 0.02, "right")
+    _thread.start_new_thread(motor.move_distance, (200, "forward", 0.02, "left"))
+    motor.move_distance(200, "forward", 0.02, "right")
     sleep(0.5)
     print("A")
     if turnSide == "left":
@@ -36,4 +36,5 @@ for i in range(4):
     elif turnSide == "right":
         _thread.start_new_thread(motor.turn_in_place, (-90, "left", 0.02))
         motor.turn_in_place(90, "right", 0.02)
+    sleep(0.5)
     print(i)
