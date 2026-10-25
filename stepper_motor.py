@@ -57,19 +57,6 @@ class StepperMotor:
         # Keep track of the currently selected mode.
         self.current_sequence = self.full_step_sequence
 
-        #some mah needed for turn and distance logic
-        angle = 1.8  #angle the steppermotor turns. datablad... Fra Jes ppt
-        diameter = 8  # diameter of wheels in cm
-
-        wheelbase = 24  # distance between wheels in cm #MÅL BREDRE IKKE ENDELIGT MÅL
-
-        circum = math.pi * diameter  # circumfrence of wheels
-        turningCircum = 2 * math.pi * wheelbase  # turning circumfrance.
-        stepPR = 360 / angle  # step per revolution
-        self.distPS = circum / stepPR  # distance per step
-        self.numStepFT = turningCircum / self.distPS  # number of steps for a full turn
-
-
     def generate_microstep_sequence(self, microsteps):
         """Generate and return a complete microstep sequence."""
         if not isinstance(microsteps, int) or microsteps < 1:
@@ -135,26 +122,16 @@ class StepperMotor:
         finally:
             self.stop()
 
+''' 
     def rotate_full_step(self, steps, delay):
         """Rotate through the full-step sequence."""
         sequence = self.full_step_sequence
 
         try:
-            for _ in range(abs(steps)):
+            for _ in range(abs(steps)): #VIL DETTE IKKE VÆRE BEDRE I move_stepper
                 for step in sequence:
                     self.set_step(step)
                     sleep(delay)
         finally:
             self.stop()
-
-
-    def turn(self, degrees): # in place rotation. degrees are degrees wanting to turn
-        numStepTxD = (degrees / 360) * self.numStepFT  # number of steps to turn X degrees
-        leftMotorSteps = numStepTxD / 2  # left motor steps to turn x degree in place
-        # rightMotorSteps = -leftMotorSteps  # right motor steps to turn x degree in place
-        return leftMotorSteps #take the negative of this for right motor
-
-    def travelStep(self, distToTrav): #distance wanted to travel !!!in cm!!!
-        #distTrav = self.total_steps * self.distPS  # dist travelled so far
-        numberOS = distToTrav / self.distPS  # number of steps to travel
-        return numberOS #gives number of steps to travel a given length
+'''
