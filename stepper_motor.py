@@ -18,8 +18,8 @@ class StepperMotor:
             self.pins = [
                 PWM(Pin("GP5", Pin.OUT)),
                 PWM(Pin("GP4", Pin.OUT)),
+                PWM(Pin("GP21", Pin.OUT)),
                 PWM(Pin("GP20", Pin.OUT)),
-                PWM(Pin("GP19", Pin.OUT)),
             ]
         else:
             raise ValueError("side must be 'left' or 'right'")
@@ -113,14 +113,16 @@ class StepperMotor:
             sequence = list(reversed(sequence))
 
         cycle = abs(steps) // len(sequence)
-
+        total_step = 0
         try:
             for _ in range(cycle):
                 for step in sequence:
                     self.set_step(step)
                     sleep(delay)
+                    total_step += 1
         finally:
             self.stop()
+        #print(total_step)
 
 ''' 
     def rotate_full_step(self, steps, delay):

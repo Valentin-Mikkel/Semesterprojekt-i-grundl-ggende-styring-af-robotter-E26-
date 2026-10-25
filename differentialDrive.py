@@ -56,7 +56,6 @@ class DifferentialDrive:
 
     def turn_left(self, degrees, delay_us=1000):
         steps = self.turnMath(degrees) #get number of steps to turn
-
         self.right.move_stepper(steps, "forward", delay_us) #turn of side
         self.left.move_stepper(steps, "backward", delay_us)#needs sync
 
