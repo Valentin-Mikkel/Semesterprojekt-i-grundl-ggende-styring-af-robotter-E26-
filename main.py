@@ -23,11 +23,17 @@ _thread.start_new_thread(motor.move_distance, (100, "forward", 0.02, "left"))
 motor.move_distance(100, "forward", 0.02, "right")
 '''
 
+turnSide = "right"
+
 for i in range(4):
-    _thread.start_new_thread(motor.move_distance, (100, "forward", 0.01, "left"))
+    _thread.start_new_thread(motor.move_distance, (100, "forward", 0.02, "left"))
     motor.move_distance(100, "forward", 0.02, "right")
     sleep(0.5)
     print("A")
-    _thread.start_new_thread(motor.turn_in_place, (90, "left", 0.02))
-    motor.turn_in_place(-90, "right", 0.02)
+    if turnSide == "left":
+        _thread.start_new_thread(motor.turn_in_place, (90, "left", 0.02))
+        motor.turn_in_place(-90, "right", 0.02)
+    elif turnSide == "right":
+        _thread.start_new_thread(motor.turn_in_place, (-90, "left", 0.02))
+        motor.turn_in_place(90, "right", 0.02)
     print(i)
