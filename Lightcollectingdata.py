@@ -2,6 +2,11 @@ from machine import ADC, Pin
 import time
 import serial
 
+'''
+Lav en class som lave opjekter inde fra main.py, ligesom med motorne, og gør det mugligt at tildele ADC pins ved oprettelse af objektet
+
+'''
+
 # Initialize ADC on GP28 (ADC2)
 ldr = ADC(26)
 
