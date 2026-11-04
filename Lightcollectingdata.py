@@ -19,9 +19,10 @@ while True:
 
     '''tag data printet ovenfor at få python til at lave en .csv fil, 
     (hvis den ikke allerede eksistere) og skrive data ind i den uden den
-    slette data der allerede ligge i den'''
-    #Use the serial port
-    ser = serial.Serial('COM5', 9600)
+    slette data der allerede ligge i den
+    status: har prøvet at teste den, men kan ikke få serial til at virke'''
+    #Use the serial port (min bruger COM4, men tjek hvad din egen computer bruger)
+    ser = serial.Serial('COM4', 9600)
 
     #Use with open to create a csv file for data collection
     with open('data_log.csv', 'a') as file:
@@ -33,6 +34,7 @@ while True:
             #Use flush to immediately save the data
             file.flush()
             time.sleep(1)
+
 
     # Example logic: Turn on LED if it gets dark
     if light_value > 40000:
