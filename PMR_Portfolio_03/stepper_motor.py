@@ -65,6 +65,18 @@ class StepperMotor:
         # Keep track of the currently selected mode.
         self.current_sequence = self.full_step_sequence
 
+        # some mah needed for turn and distance logic
+        angle = 1.8  # angle the steppermotor turns. datablad... Fra Jes ppt
+        diameter = 8  # diameter of wheels in cm
+
+        wheelbase = 24  # distance between wheels in cm #MÅL BREDRE IKKE ENDELIGT MÅL
+
+        circum = math.pi * diameter
+        turningCircum = math.pi * wheelbase
+        stepPR = (360 / angle) * 2 #if fullstep remove *2
+        self.distPS = circum / stepPR
+        self.numStepFT = turningCircum / self.distPS
+
     def generate_microstep_sequence(self, microsteps):
         """Generate and return a complete microstep sequence."""
         if not isinstance(microsteps, int) or microsteps < 1:
@@ -134,14 +146,15 @@ class StepperMotor:
         finally:
             self.stop()
 
-    def rotate_full_step(self, steps, delay):
-        """Rotate through the full-step sequence."""
-        sequence = self.full_step_sequence
+    def turn(self, degree, direction, delay=0.005):
+        if direction not in ["left", "right"]:
+            raise ValueError("Direction must be 'left', or 'right'.")
+        steps = round((2*degree / 360) * self.numStepFT)
+        self.move_stepper(steps, direction, delay)
+        pass
 
-        try:
-            for _ in range(abs(steps)):
-                for step in sequence:
-                    self.set_step(step)
-                    sleep(delay)
-        finally:
-            self.stop()
+    def move_distance(self, distance_cm, direction, delay=0.005):
+        if direction not in ["left", "right"]:
+            raise ValueError("Direction must be 'left', or 'right'.")
+        steps = distance_cm / self.distPS
+        self.move_stepper(steps, direction, delay)
