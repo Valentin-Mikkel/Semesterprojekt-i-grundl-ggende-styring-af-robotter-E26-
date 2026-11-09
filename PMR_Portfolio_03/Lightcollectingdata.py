@@ -32,10 +32,7 @@ while True:
 
     '''tag data printet ovenfor at få python til at lave en .csv fil, 
     (hvis den ikke allerede eksistere) og skrive data ind i den uden den
-    slette data der allerede ligge i den
-    status: har prøvet at teste den, men kan ikke få serial til at virke'''
-    #Use the serial port (min bruger COM4, men tjek hvad din egen computer bruger)
-    #ser = serial.Serial('COM3', 9600)
+    slette data der allerede ligge i den'''
 
     textinput = f"Analog Value: {light_value} | Voltage: {voltage:.2f} V"
 

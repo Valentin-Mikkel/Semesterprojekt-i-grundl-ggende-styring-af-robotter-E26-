@@ -15,7 +15,6 @@ class ADCPin:
             ADC(28), #right
         ]
 
-
     def read_value(self):
         #indsæt så den læser værdier fra de specifikke pins
         left_ldr = self._adc[0]
@@ -32,7 +31,7 @@ class ADCPin:
         voltage_mid = 3.3 * (light_value_mid / 65535)
         voltage_right = 3.3 * (light_value_right / 65535)
 
-        #??print værdier fra hver ldr??
+        #Print værdier fra hver ldr, skriv på hver linje, adskil værdisæt med en streg
         print(f"Analog Value for left ldr: {light_value_left} | Voltage for left ldr: {voltage_left:.2f} V\n"
               f"Analog Value for mid ldr: {light_value_mid} | Voltage for mid ldr: {voltage_mid:.2f} V\n"
               f"Analog Value for right ldr: {light_value_right} | Voltage for right ldr: {voltage_right:.2f} V\n"
@@ -40,7 +39,7 @@ class ADCPin:
         )
     #def bool status sides ldr
     #def status enum mid ldr
-
+        #Robotten skal omsætte analog værdier om til noget brugbart i forhold til kørsel
 '''
 # Initialize ADC on GP28 (ADC2)
 #ldr = ADC(26)
