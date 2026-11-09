@@ -21,21 +21,24 @@ def drivebackward(steps, delay):
     motors.move_stepper(steps, "backward", delay=delay)
 
 def turnLeft(degree, delay):
-    motors.turn(degree, "left", delay=delay)
+    steps = motors.turn(degree)
+    motors.move_stepper(steps, "left", delay=delay)
 
 def turnRight(degree, delay):
-    motors.turn(degree, "right", delay=delay)
+    steps = motors.turn(degree)
+    motors.move_stepper(steps, "right", delay=delay)
 
 while True:
-
+    '''
     driveforward(800, 0.001)
     driveleft(800, 0.001)
     driveforward(800, 0.001)
     driveright(800, 0.001)
     drivebackward(800, 0.001)
-
+    '''
     turnLeft(180, 0.001)
     turnRight(180, 0.001)
+
 
 
 

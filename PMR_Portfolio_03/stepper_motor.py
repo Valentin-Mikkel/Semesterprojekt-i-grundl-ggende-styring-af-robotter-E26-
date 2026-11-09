@@ -146,15 +146,10 @@ class StepperMotor:
         finally:
             self.stop()
 
-    def turn(self, degree, direction, delay=0.005):
-        if direction not in ["left", "right"]:
-            raise ValueError("Direction must be 'left', or 'right'.")
-        steps = round((2*degree / 360) * self.numStepFT)
-        self.move_stepper(steps, direction, delay)
-        pass
+    def turn(self, degree):
+        steps = int(round((degree / 360) * self.numStepFT))
+        return steps
 
-    def move_distance(self, distance_cm, direction, delay=0.005):
-        if direction not in ["left", "right"]:
-            raise ValueError("Direction must be 'left', or 'right'.")
+    def move_distance(self, distance_cm):
         steps = distance_cm / self.distPS
-        self.move_stepper(steps, direction, delay)
+        return steps
