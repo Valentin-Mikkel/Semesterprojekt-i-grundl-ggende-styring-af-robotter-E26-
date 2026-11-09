@@ -124,16 +124,3 @@ class StepperMotor:
             self.stop()
         #print(total_step)
 
-''' 
-    def rotate_full_step(self, steps, delay):
-        """Rotate through the full-step sequence."""
-        sequence = self.full_step_sequence
-
-        try:
-            for _ in range(abs(steps)): #VIL DETTE IKKE VÆRE BEDRE I move_stepper
-                for step in sequence:
-                    self.set_step(step)
-                    sleep(delay)
-        finally:
-            self.stop()
-'''
