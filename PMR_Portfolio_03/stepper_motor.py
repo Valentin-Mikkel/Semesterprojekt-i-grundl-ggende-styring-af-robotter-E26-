@@ -69,7 +69,7 @@ class StepperMotor:
         angle = 1.8  # angle the steppermotor turns. datablad... Fra Jes ppt
         diameter = 8  # diameter of wheels in cm
 
-        wheelbase = 24  # distance between wheels in cm #MÅL BREDRE IKKE ENDELIGT MÅL
+        wheelbase = 22.7  # distance between wheels in cm #MÅL BREDRE IKKE ENDELIGT MÅL
 
         circum = math.pi * diameter
         turningCircum = math.pi * wheelbase

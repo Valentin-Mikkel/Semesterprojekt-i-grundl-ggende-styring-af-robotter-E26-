@@ -28,6 +28,16 @@ def turnRight(degree, delay):
     steps = motors.turn(degree)
     motors.move_stepper(steps, "right", delay=delay)
 
+def distanceforward(distance, delay):
+    steps = motors.move_distance(distance)
+    motors.move_stepper(motors.move_stepper(steps, "forward", delay=delay))
+
+def distancebackward(distance, delay):
+    steps = motors.move_distance(distance)
+    motors.move_stepper(motors.move_stepper(steps, "backward", delay=delay))
+
+
+turnLeft(3600, 0.001)
 while True:
     '''
     driveforward(800, 0.001)
@@ -36,8 +46,6 @@ while True:
     driveright(800, 0.001)
     drivebackward(800, 0.001)
     '''
-    turnLeft(180, 0.001)
-    turnRight(180, 0.001)
 
 
 
