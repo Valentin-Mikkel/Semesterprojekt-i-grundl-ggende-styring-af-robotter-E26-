@@ -42,5 +42,3 @@ while True:
         #Use flush to immediately save the data
         file.flush()
         time.sleep(1)
-
-

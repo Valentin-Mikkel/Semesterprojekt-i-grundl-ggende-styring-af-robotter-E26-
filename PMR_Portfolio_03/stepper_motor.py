@@ -77,6 +77,8 @@ class StepperMotor:
         self.distPS = circum / stepPR
         self.numStepFT = turningCircum / self.distPS
 
+        self.currentstep = 0
+
     def generate_microstep_sequence(self, microsteps):
         """Generate and return a complete microstep sequence."""
         if not isinstance(microsteps, int) or microsteps < 1:
@@ -143,8 +145,14 @@ class StepperMotor:
                 for step in sequence:
                     self.set_step(step)
                     sleep(delay)
+                    self.currentstep += 1
         finally:
             self.stop()
+
+
+    def getAngle(self):
+        angle = (self.currentstep/self.numStepFT) * 360
+        return angle
 
     def turn(self, degree):
         steps = int(round((degree / 360) * self.numStepFT))
