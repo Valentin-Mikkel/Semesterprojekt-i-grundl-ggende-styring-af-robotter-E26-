@@ -44,21 +44,19 @@ def lightdata():
     while end == False:
         # Read raw 16-bit analog value (0 to 65535)
         light_value = ldr.read_u16()
-
         # Calculate approximate voltage (0V to 3.3V)
         voltage = 3.3 * (light_value / 65535)
-
         angle = motors.getAngle()
         stop = time.ticks_diff(time.ticks_ms(), start)
-        print(f"Time {stop} | Angle {angle} | Analog Value: {light_value} | Voltage: {voltage:.2f} V")
-        time.sleep(0.5)
+        print(f"Time {stop} | Angle {angle} | Analog_Value: {light_value} | Voltage: {voltage:.2f} V")
 
-        textinput = f"Time {stop} | Angle {angle} | Analog Value: {light_value} | Voltage: {voltage:.2f} V"
+        textinput = f"Time {stop} | Angle {angle} | Analog_Value: {light_value}"
         # Use with open to create a csv file for data collection
         with open('data_log.csv', 'a') as file:
             file.write(f'{textinput}\n')
             # Use flush to immediately save the data
             file.flush()
+        time.sleep(0.2)
 
 
 delay = 0.01

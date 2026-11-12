@@ -151,7 +151,7 @@ class StepperMotor:
 
 
     def getAngle(self):
-        angle = (self.currentstep/self.numStepFT) * 360
+        angle = int(round((self.currentstep/self.numStepFT) * 360))
         return angle
 
     def turn(self, degree):
