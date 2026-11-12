@@ -40,6 +40,7 @@ def distancebackward(distance, delay):
 end = False
 def lightdata():
     global end
+    start = time.ticks_ms()
     while end == False:
         # Read raw 16-bit analog value (0 to 65535)
         light_value = ldr.read_u16()
@@ -48,11 +49,11 @@ def lightdata():
         voltage = 3.3 * (light_value / 65535)
 
         angle = motors.getAngle()
-
-        print(f"Angle {angle} | Analog Value: {light_value} | Voltage: {voltage:.2f} V")
+        stop = time.ticks_diff(time.ticks_ms(), start)
+        print(f"Time {stop} | Angle {angle} | Analog Value: {light_value} | Voltage: {voltage:.2f} V")
         time.sleep(0.5)
 
-        textinput = f"Angle {angle} | Analog Value: {light_value} | Voltage: {voltage:.2f} V"
+        textinput = f"Time {stop} | Angle {angle} | Analog Value: {light_value} | Voltage: {voltage:.2f} V"
         # Use with open to create a csv file for data collection
         with open('data_log.csv', 'a') as file:
             file.write(f'{textinput}\n')
@@ -66,8 +67,6 @@ turnLeft(180, delay)
 time.sleep(2)
 turnRight(180, delay)
 end = True
-
-
 
 
 
