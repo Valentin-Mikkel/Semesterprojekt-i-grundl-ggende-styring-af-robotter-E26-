@@ -3,6 +3,7 @@ from machine import Pin, ADC
 import _thread
 import time
 
+
 motors = StepperMotor(pwm_pct=0.40, frequency=18_000)
 motors.set_step_mode("half_step_x_axis", microsteps=4)
 

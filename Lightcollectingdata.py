@@ -8,33 +8,20 @@ Lav en class som lave opjekter inde fra main.py, ligesom med motorne, og gør de
 '''
 class ADCPin:
     def __init__(self, pins):
-        self._pins = pins #Tilføj mulighed for at indsætte/vælge pins i main
-        self._adc = [
-            ADC(26), #left
-            ADC(27), #mid
-            ADC(28), #right
-        ]
+        self._adc = ADC(pins)
 
     def read_value(self):
         #indsæt så den læser værdier fra de specifikke pins
-        left_ldr = self._adc[0]
-        mid_ldr = self._adc[1]
-        right_ldr = self._adc[2]
+        ldr = self._adc
 
         #Læser light value fra hver enkelt adc pin/ ldr sensor
-        light_value_left = left_ldr.read_u16()
-        light_value_mid = mid_ldr.read_u16()
-        light_value_right = right_ldr.read_u16()
+        light_value = ldr.read_u16()
 
         #Calculate the voltage for each ldr
-        voltage_left = 3.3 * (light_value_left / 65535)
-        voltage_mid = 3.3 * (light_value_mid / 65535)
-        voltage_right = 3.3 * (light_value_right / 65535)
+        voltage = 3.3 * (light_value / 65535)
 
         #Print værdier fra hver ldr, skriv på hver linje, adskil værdisæt med en streg
-        print(f"Analog Value for left ldr: {light_value_left} | Voltage for left ldr: {voltage_left:.2f} V\n"
-              f"Analog Value for mid ldr: {light_value_mid} | Voltage for mid ldr: {voltage_mid:.2f} V\n"
-              f"Analog Value for right ldr: {light_value_right} | Voltage for right ldr: {voltage_right:.2f} V\n"
+        print(f"Analog Value for ldr: {light_value} | Voltage for ldr: {voltage:.2f} V\n"
               f"__________________________________________________________"
         )
     #def bool status sides ldr
