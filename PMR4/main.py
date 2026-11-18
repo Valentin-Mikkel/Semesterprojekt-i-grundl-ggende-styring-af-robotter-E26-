@@ -1,15 +1,11 @@
 from stepper_motor import StepperMotor
-from machine import Pin, ADC
-import _thread
+from machine import ADC
 import time
 
 # Initialize ADC on GP28 (ADC2)
-ldr = ADC(27)
-ldr2 = ADC(26)
+xsen = ADC(27) # x lilla ledning
+ysen = ADC(26) # y sort ledning
 direction = "undecided"
-value = 0
-#delay = round(-0.0000005*value+0.025, 4) equation for right and backwards movement
-#delay = round(0.0000004*value-0.0058, 4) equation for forward and left movement
 
 motors = StepperMotor(pwm_pct=0.40, frequency=18_000)
 motors.set_step_mode("half_step_x_axis", microsteps=4)
@@ -45,23 +41,33 @@ def distancebackward(distance, delay):
 step = 100
 degree = 25
 while True:
-    y = ldr.read_u16()
-    x = ldr2.read_u16()
+    y = ysen.read_u16()
+    x = xsen.read_u16()
 
     if x >= 60000:
         print("emergency stop")
         motors.stop()
-        break
+        stop = True
+        while x >= 60000:
+            x = xsen.read_u16()
+            print(x)
+        while stop:
+            x = xsen.read_u16()
+            print(x)
+            if x >= 60000:
+                while x >= 60000:
+                    x = xsen.read_u16()
+                stop = False
 
     if y >= 28000:
         direction = "right"
         delay = 0.001
-        driveright(degree, delay)
+        driveleft(degree, delay)
     elif y <= 18000:
         direction = "left"
         delay = 0.001
-        driveleft(degree, delay)
-    elif x >= 28000:
+        driveright(degree, delay)
+    elif 28000 <= x <= 60000:
         direction = "backwards"
         delay = 0.001
         drivebackward(step, delay)
