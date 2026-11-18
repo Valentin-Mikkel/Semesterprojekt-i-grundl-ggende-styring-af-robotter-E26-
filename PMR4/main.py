@@ -42,6 +42,8 @@ def distancebackward(distance, delay):
     steps = motors.move_distance(distance)
     motors.move_stepper(motors.move_stepper(steps, "backward", delay=delay))
 
+step = 100
+degree = 25
 while True:
     y = ldr.read_u16()
     x = ldr2.read_u16()
@@ -51,26 +53,25 @@ while True:
         motors.stop()
         break
 
-    if y >= 35000:
+    if y >= 28000:
         direction = "right"
-        delay = round(-0.0000005 * y + 0.025, 4)
-        driveright(3, delay)
-    elif y <= 30000:
+        delay = 0.001
+        driveright(degree, delay)
+    elif y <= 18000:
         direction = "left"
-        delay = round(0.0000004*y-0.0058, 4)
-        driveleft(3, delay)
-    elif x >= 35000:
+        delay = 0.001
+        driveleft(degree, delay)
+    elif x >= 28000:
         direction = "backwards"
-        delay = round(-0.0000005 * x + 0.025, 4)
-        drivebackward(3, delay)
-    elif x <= 30000:
+        delay = 0.001
+        drivebackward(step, delay)
+    elif x <= 18000:
         direction = "forward"
-        delay = round(0.0000004*x-0.0058, 4)
-        driveforward(3, delay)
+        delay = 0.001
+        driveforward(step, delay)
 
-    output = f"x = {x} | y = {y} | direction {direction} | delay {delay}"
+    output = f"x = {x} | y = {y} | direction {direction}"
     print(output)
-    time.sleep(0.5)
 
 
 
