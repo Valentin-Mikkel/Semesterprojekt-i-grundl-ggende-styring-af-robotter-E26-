@@ -5,7 +5,7 @@ from machine import Pin, ADC
 import _thread
 
 ap = network.WLAN(network.AP_IF)
-ap.config(essid="RobtekGroup6", password="RobtekGroup1234")
+ap.config(ssid="RobtekGroup6", password="RobtekGroup1234")
 ap.active(True)
 
 while not ap.active():
@@ -23,7 +23,15 @@ while True:
     try:
         data, addr = sock.recvfrom(1024)
         print("Received data:", data.decode(), "from", addr)
+
+        command = data.decode()
+
+        if command == "snackingtime":
+            print("Command 'one' received. Executing action...")
+            # Add your action for command "one" here
+
     except OSError:
         pass
 
     time.sleep(0.1)
+

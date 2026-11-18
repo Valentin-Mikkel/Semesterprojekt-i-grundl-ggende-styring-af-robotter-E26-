@@ -2,6 +2,7 @@
 <project version="4">
   <component name="MicroPythonTools">
     <option name="activeWebReplPresetId" value="c646dbca-b821-4702-9cd1-816f5fe1ab40" />
+    <option name="autoClearRepl" value="false" />
     <option name="pluginEnabled" value="true" />
     <option name="portName" value="COM5" />
     <option name="webReplPresets">

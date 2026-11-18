@@ -1,5 +1,3 @@
-from itertools import count
-
 import network
 import time
 import socket
