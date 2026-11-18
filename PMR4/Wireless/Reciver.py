@@ -11,7 +11,7 @@ wlan.connect("RobtekGroup6", "RobtekGroup1234")
 
 print("connecting to wireless transmitter...")
 while not wlan.isconnected():
-    pass
+    time.sleep(0.5)
 
 print("Wireless receiver is connected to transmitter. Network config:", wlan.ifconfig()[0])
 
@@ -21,8 +21,7 @@ Robot_PORT = 1000
 
 counter = 0
 while True:
-    counter += 1
-    message = f"Hello from receiver! Count: {counter}"
+    message = f"snackingtime"
     sock.sendto(message.encode(), (Robot_IP, Robot_PORT))
     print("Sent data:", message)
     time.sleep(1)
