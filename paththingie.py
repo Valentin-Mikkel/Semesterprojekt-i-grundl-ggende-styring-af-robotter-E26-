@@ -3,7 +3,7 @@ import math
 from itertools import count
 
 def validate_graph(graph, start, goals):
-    """String IDs; nonnegative integer weights."""
+    """String IDs; nonnegative integer weights. shit load of validation to make sure graph is valid."""
     for node in graph:
         if not isinstance(node, str):
             raise ValueError("Use string node IDs")
@@ -19,6 +19,7 @@ def validate_graph(graph, start, goals):
         if goal not in graph:
             raise ValueError(f"Unknown goal: {goal}")
 
+    #validate edges
     for roads in graph.values():
         for neighbor, weight in roads:
             if neighbor not in graph:
@@ -29,6 +30,7 @@ def validate_graph(graph, start, goals):
                 )
 
 def rebuild_path(previous, goal):
+    """rebuild the path. from goal to start using previous point. then reverse to get nice to read list"""
     path = [goal]
     while path[-1] in previous:
         path.append(previous[path[-1]])
@@ -37,22 +39,30 @@ def rebuild_path(previous, goal):
 
 def shortest_path(graph, start, goals):
     """Return (cost, path), or (infinity, [])."""
+    #validate
     validate_graph(graph, start, goals)
     goals = set(goals)
-
+    #set all distances to nodes to infinite
     distances = {node: math.inf for node in graph}
+
+    #startnode is distance 0
     distances[start] = 0
+
+    #previous list and next pending number
     previous = {}
     pending = [(0, start)]
 
     while pending:
+        #get node
         cost, node = heappop(pending)
+        #check if node has been reached before, dijkstra so first node to point should be smallest
         if cost != distances[node]:
             continue
+        #if finished finish
         if node in goals:
             path = rebuild_path(previous, node)
             return cost, path, node
-
+        #check neighbor nodes and update distances and path to them if smaller
         for neighbor, weight in graph[node]:
             candidate = cost + weight
             if candidate < distances[neighbor]:
@@ -63,6 +73,7 @@ def shortest_path(graph, start, goals):
 
     return math.inf, []
 
+#NODES from geogebra
 A = (0, 39.5)
 B = (35, 39.5)
 C = (69, 39.5)
@@ -98,10 +109,12 @@ W3 = (134.5, 322)
 W4 = (-46, 165)
 W5 = (-126.5, 93.5)
 WP = (108.5, 39.5)
-# The shared delivery map.
+
+#distance calculation
 def dist (p1, p2):
     return abs(math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2))
 
+#shared graph with all nodes and their neighbors, TOOK FOREVER shoot me
 GRAPH = {
     "ST": [("A", dist(ST, A))],
     "A": [("ST", dist(A, ST)), ("B", dist(A, B)), ("M", dist(A, M))],
@@ -141,20 +154,23 @@ GRAPH = {
 }
 
 if __name__ == "__main__":
-    #initial drive
+    #from start to first point
     print("ST")
+    #give details for first reached goal either WP or RP
     cost, route, goal = shortest_path(GRAPH, "ST", ["RP", "WP"])
     print(cost, route, goal)
-
+    #Lists of points that can be visited from different starting points
     endWP = ["W1", "W2", "W3", "W4", "W5"]
     endRP = ["R1", "R2", "R3", "R4", "R5"]
     endDeliver = ["WP", "RP"]
+    #needed variables for removing pickup points when they out
     removedWP = False
     removedRP = False
     countWP = 0
     countRP = 0
 
     while True:
+        #check if on pickup point, count up if yes
         if goal == "WP":
             start = "WP"
             end = endWP
@@ -163,7 +179,7 @@ if __name__ == "__main__":
             start = "RP"
             end = endRP
             countRP += 1
-
+        #check if on delivery point, remove the point if yes
         elif goal in endWP:
             start = goal
             endWP.remove(goal)
@@ -172,16 +188,16 @@ if __name__ == "__main__":
             start = goal
             endRP.remove(goal)
             end = endDeliver
-
+        #remove pickup point if everything picked up from point
         if countWP == 5 and not removedWP:
             endDeliver.remove("WP")
             removedWP = True
         elif countRP == 5 and not removedRP:
             endDeliver.remove("RP")
             removedRP = True
-
+        #check if everything has been delivered
         if not endWP and not endRP:
             break
-
+        #run search with given variables
         cost, route, goal = shortest_path(GRAPH, start, end)
         print(goal)
