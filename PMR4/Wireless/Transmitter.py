@@ -26,9 +26,9 @@ while True:
 
         command = data.decode()
 
-        if command == "snackingtime":
-            print("Command 'one' received. Executing action...")
-            # Add your action for command "one" here
+        if command == "Drive Forward":
+            print("Command 'Drive Forward' received. Executing action...")
+
 
     except OSError:
         pass

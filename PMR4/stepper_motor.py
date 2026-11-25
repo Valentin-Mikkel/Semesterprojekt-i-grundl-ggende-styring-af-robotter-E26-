@@ -3,28 +3,32 @@ from time import sleep
 import math
 
 
+
 class StepperMotor:
     def __init__(self, pwm_pct=0.15, frequency=18_000):
         # Configure the four PWM outputs.
-        self.pins = [
+        self.pins_left = [
             #Left wheel pins
             PWM(Pin("GP0", Pin.OUT)),
             PWM(Pin("GP1", Pin.OUT)),
             PWM(Pin("GP2", Pin.OUT)),
             PWM(Pin("GP3", Pin.OUT)),
+            ]
 
+        self.pins_right = [
             # right wheel pins
             PWM(Pin("GP4", Pin.OUT)),
             PWM(Pin("GP5", Pin.OUT)),
             PWM(Pin("GP6", Pin.OUT)),
             PWM(Pin("GP7", Pin.OUT)),
-            ]
+        ]
 
 
         self.sequence_index = 0
 
 
-        for output in self.pins:
+
+        for output in self.pins_left + self.pins_right:
             output.freq(frequency)
 
         # Store each step sequence under a separate mode name.
@@ -60,6 +64,8 @@ class StepperMotor:
             [0, 0, 0, val, val, 0, 0, 0],    # Step 6
             [val, 0, 0, val, val, 0, 0, val],  # Step 7
         ]
+
+
 
         self.microstep_sequence = []
         # Keep track of the currently selected mode.
@@ -120,15 +126,15 @@ class StepperMotor:
 
     def set_step(self, step):
         """Apply one step to the selected PWM outputs."""
-        for output, duty_cycle in zip(self.pins, step):
+        for output, duty_cycle in zip(self.pins_left + self.pins_right, step):
             output.duty_u16(int(duty_cycle * 65535))
 
     def stop(self):
         """Set the PWM duty cycle of all outputs to zero."""
         self.set_step([0, 0, 0, 0, 0, 0, 0, 0])
 
-    def move_stepper(self, steps, direction="forward", delay=0.005):
-        if direction not in ["forward", "backward", "left", "right"]:
+    def move_stepper(self, steps, direction="forward", delay=0.005, smooth=True, extra_every = 4):
+        if direction not in ["forward", "backward", "left", "right", "forwardright", "forwardleft"]:
             raise ValueError("Direction must be 'forward', 'backward', 'left', or 'right'.")
         sequence = list(self.current_sequence)
         if direction == "backward":
@@ -138,7 +144,40 @@ class StepperMotor:
         if direction == "right":
             sequence = list(reversed(self.half_step_sequence_y_axis))
 
-        cycle = abs(steps) // len(sequence)
+        seq_length = len(sequence)
+        cycle = abs(steps) // seq_length
+
+        left_index = 0
+        right_index = 0
+
+        try:
+            for stepcount in range(cycle * seq_length):
+                left_steps = sequence[left_index][0:4]  # Left wheel steps
+                right_steps = sequence[right_index][4:8]  # Right wheel steps
+                self.set_step(left_steps + right_steps)
+
+                if smooth and direction == "forwardright":
+                    left_increase = 2 if (extra_every and stepcount % extra_every == 0) else 1
+                    right_increase = 1
+                elif smooth and direction == "forwardleft":
+                    right_increase = 2 if (extra_every and stepcount % extra_every == 0) else 1
+                    left_increase = 1
+                else:
+                    left_increase = 1
+                    right_increase = 1
+
+                left_index = (left_index + left_increase) % seq_length
+                right_index = (right_index + right_increase) % seq_length
+
+                sleep(delay)
+                self.currentstep += 1
+        finally:
+            self.stop()
+
+
+
+        '''
+            cycle = abs(steps) // len(sequence)
 
         try:
             for _ in range(cycle):
@@ -148,7 +187,7 @@ class StepperMotor:
                     self.currentstep += 1
         finally:
             self.stop()
-
+            '''
 
     def getAngle(self):
         angle = int(round((self.currentstep/self.numStepFT) * 360))
