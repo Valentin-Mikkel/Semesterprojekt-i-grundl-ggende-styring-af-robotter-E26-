@@ -158,7 +158,7 @@ if __name__ == "__main__":
     print("ST")
     #give details for first reached goal either WP or RP
     cost, route, goal = shortest_path(GRAPH, "ST", ["RP", "WP"])
-    print(cost, route, goal)
+    print(route)
     #Lists of points that can be visited from different starting points
     endWP = ["W1", "W2", "W3", "W4", "W5"]
     endRP = ["R1", "R2", "R3", "R4", "R5"]
@@ -200,4 +200,4 @@ if __name__ == "__main__":
             break
         #run search with given variables
         cost, route, goal = shortest_path(GRAPH, start, end)
-        print(goal)
+        print(route, goal)
