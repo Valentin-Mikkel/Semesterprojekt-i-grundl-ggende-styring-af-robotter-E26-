@@ -24,6 +24,7 @@ speed_led_100p.value(0)
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 wlan.connect("RobtekGroup6", "RobtekGroup1234")
+wlan.config(pm=0xa11140)
 
 print("connecting to wireless transmitter...")
 while not wlan.isconnected():

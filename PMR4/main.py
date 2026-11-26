@@ -104,12 +104,15 @@ sock.setblocking(False)
 
 print("Wireless transmitter is listening...")
 
+
+
 while True:
     try:
         data, addr = sock.recvfrom(1024)
         command = data.decode().strip()
     except OSError:
         pass
+
 
     if emg_btn.value() == 0:
         if not emergency_stop_active:
@@ -128,6 +131,7 @@ while True:
         elif current_speed == 3:
             current_speed = 1
             delay = 0.008
+        command = "no command"  # Reset command after changing speed
 
     elif command == "Drive Forward":
         print("Command 'Drive Forward' received. Executing action...")
@@ -150,17 +154,13 @@ while True:
         direction = "right"
         turnRight(degree, delay)
 
-    elif command == "drive left":
-        print("Command 'drive left' received. Executing action...")
-        direction = "left"
-        driveleft(step, delay)
 
-    elif command == "drive right":
-        print("Command 'drive right' received. Executing action...")
-        direction = "right"
-        driveright(step, delay)
 
     elif command == "no command":
+        motors.stop()
+
+    else:
+        print("Unknown command received:", command)
         motors.stop()
 
 
